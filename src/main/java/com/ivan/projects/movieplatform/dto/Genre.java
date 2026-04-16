@@ -1,4 +1,4 @@
-package com.ivan.projects.movieplatform.domain.tmdb;
+package com.ivan.projects.movieplatform.dto;
 
 public record Genre(
     Integer id,

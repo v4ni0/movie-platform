@@ -1,6 +1,6 @@
 package com.ivan.projects.movieplatform.controller;
 
-import com.ivan.projects.movieplatform.domain.tmdb.Movie;
+import com.ivan.projects.movieplatform.dto.Movie;
 import com.ivan.projects.movieplatform.dto.MovieResponse;
 import com.ivan.projects.movieplatform.dto.Video;
 import com.ivan.projects.movieplatform.dto.VideoResponse;

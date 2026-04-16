@@ -1,7 +1,7 @@
 package com.ivan.projects.movieplatform.service;
 
 import com.google.gson.Gson;
-import com.ivan.projects.movieplatform.domain.tmdb.Movie;
+import com.ivan.projects.movieplatform.dto.Movie;
 import com.ivan.projects.movieplatform.dto.MovieResponse;
 import com.ivan.projects.movieplatform.dto.VideoResponse;
 import com.ivan.projects.movieplatform.validation.Validator;

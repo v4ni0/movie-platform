@@ -1,7 +1,6 @@
 package com.ivan.projects.movieplatform.dto;
 
 import com.google.gson.annotations.SerializedName;
-import com.ivan.projects.movieplatform.domain.tmdb.Movie;
 
 import java.util.List;
 
