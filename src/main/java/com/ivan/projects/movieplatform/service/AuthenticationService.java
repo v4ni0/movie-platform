@@ -1,7 +1,7 @@
 package com.ivan.projects.movieplatform.service;
 
 import com.ivan.projects.movieplatform.domain.User;
-import com.ivan.projects.movieplatform.dto.RegisterRequest;
+import com.ivan.projects.movieplatform.dto.request.RegisterRequest;
 import com.ivan.projects.movieplatform.exception.UsernameTakenException;
 import com.ivan.projects.movieplatform.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;

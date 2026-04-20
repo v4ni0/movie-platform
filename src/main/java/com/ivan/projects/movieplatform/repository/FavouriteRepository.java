@@ -8,8 +8,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface FavouriteRepository extends JpaRepository<Favourite, Long> {
+
+    List<Favourite> findAllByUser(User user);
+
+    Optional<Favourite> findByUserAndMovieId(User user, Integer movieId);
 
     @Query("SELECT f.movieId FROM Favourite f WHERE f.user = :user")
     List<Integer> findMovieIdsByUser(@Param("user") User user);

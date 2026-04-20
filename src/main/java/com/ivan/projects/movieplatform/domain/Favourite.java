@@ -12,6 +12,8 @@ import jakarta.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "favourites", uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "movie_id"}))
 @Getter
@@ -27,4 +29,7 @@ public class Favourite {
 
     @Column(name = "movie_id", nullable = false)
     private Integer movieId;
+
+    @Column(name = "added_at")
+    private LocalDateTime addedAt;
 }

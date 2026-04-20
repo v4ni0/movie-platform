@@ -1,6 +1,7 @@
-package com.ivan.projects.movieplatform.dto;
+package com.ivan.projects.movieplatform.dto.response;
 
 import com.google.gson.annotations.SerializedName;
+import com.ivan.projects.movieplatform.vo.Movie;
 
 import java.util.List;
 

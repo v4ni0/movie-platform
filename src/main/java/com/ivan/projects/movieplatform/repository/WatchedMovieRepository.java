@@ -12,6 +12,10 @@ import java.util.Optional;
 
 public interface WatchedMovieRepository extends JpaRepository<WatchedMovie, Long> {
 
+    List<WatchedMovie> findAllByUser(User user);
+
+    List<WatchedMovie> findTop5ByUserOrderByWatchedAtDesc(User user);
+
     @Query("SELECT w.movieId FROM WatchedMovie w WHERE w.user = :user ORDER BY w.watchedAt DESC")
     List<Integer> findMovieIdsByUser(@Param("user") User user);
 

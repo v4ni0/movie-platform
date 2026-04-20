@@ -1,4 +1,4 @@
-package com.ivan.projects.movieplatform.dto;
+package com.ivan.projects.movieplatform.vo;
 
 public record Genre(
     Integer id,

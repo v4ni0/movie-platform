@@ -1,11 +1,12 @@
 package com.ivan.projects.movieplatform.service;
 
 import com.google.gson.Gson;
-import com.ivan.projects.movieplatform.dto.Movie;
-import com.ivan.projects.movieplatform.dto.MovieResponse;
-import com.ivan.projects.movieplatform.dto.VideoResponse;
+import com.ivan.projects.movieplatform.vo.Movie;
+import com.ivan.projects.movieplatform.dto.response.MovieResponse;
+import com.ivan.projects.movieplatform.dto.response.VideoResponse;
 import com.ivan.projects.movieplatform.validation.Validator;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -46,6 +47,7 @@ public class TMDBService {
         return URI.create(SEARCH_ENDPOINT + "?query=" + encodedQuery + "&api_key=" + apiKey);
     }
 
+    @Cacheable(value = "movies", key = "#movieId")
     public Movie getMovieById(Integer movieId) throws IOException, InterruptedException {
         Validator.validatePositiveInteger(movieId, "Movie ID must be a positive integer.");
         URI uri = buildMovieUri(movieId);
@@ -75,6 +77,7 @@ public class TMDBService {
         }
     }
 
+    @Cacheable(value = "movie-videos", key = "#movieId")
     public VideoResponse getMovieVideos(Integer movieId) throws IOException, InterruptedException {
         Validator.validatePositiveInteger(movieId, "Movie ID must be a positive integer.");
         URI uri = buildVideoUri(movieId);

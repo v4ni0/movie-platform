@@ -1,11 +1,15 @@
 package com.ivan.projects.movieplatform.controller;
 
-import com.ivan.projects.movieplatform.dto.Movie;
-import com.ivan.projects.movieplatform.dto.MovieResponse;
-import com.ivan.projects.movieplatform.dto.Video;
-import com.ivan.projects.movieplatform.dto.VideoResponse;
+import com.ivan.projects.movieplatform.domain.User;
+import com.ivan.projects.movieplatform.vo.MovieUserStatus;
+import com.ivan.projects.movieplatform.vo.Movie;
+import com.ivan.projects.movieplatform.dto.response.MovieResponse;
+import com.ivan.projects.movieplatform.vo.Video;
+import com.ivan.projects.movieplatform.dto.response.VideoResponse;
+import com.ivan.projects.movieplatform.service.MovieStatusService;
 import com.ivan.projects.movieplatform.service.TMDBService;
 import io.swagger.v3.oas.annotations.Operation;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,12 +22,14 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/movies")
-public class MovieController {
+public class MovieSearchController {
 
     private final TMDBService tmdbService;
+    private final MovieStatusService movieStatusService;
 
-    public MovieController(TMDBService tmdbService) {
+    public MovieSearchController(TMDBService tmdbService, MovieStatusService movieStatusService) {
         this.tmdbService = tmdbService;
+        this.movieStatusService = movieStatusService;
     }
 
     @Operation(summary = "Get a movie by its ID")
@@ -45,5 +51,11 @@ public class MovieController {
         return videoResponse.results().stream()
             .filter(video -> "Trailer".equalsIgnoreCase(video.type()) && "YouTube".equalsIgnoreCase(video.site()))
             .collect(Collectors.toList());
+    }
+
+    @Operation(summary = "Get user status for a movie (watched/favourite/watchlist)")
+    @GetMapping("/{id}/status")
+    public MovieUserStatus getStatus(@PathVariable Integer id, @AuthenticationPrincipal User user) {
+        return movieStatusService.getStatus(user, id);
     }
 }

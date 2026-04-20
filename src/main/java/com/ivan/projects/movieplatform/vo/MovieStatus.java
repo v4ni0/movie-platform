@@ -1,4 +1,4 @@
-package com.ivan.projects.movieplatform.dto;
+package com.ivan.projects.movieplatform.vo;
 
 public enum MovieStatus {
     RUMORED("Rumored"),
@@ -9,12 +9,8 @@ public enum MovieStatus {
     CANCELED("Canceled");
 
     private final String value;
-
     MovieStatus(String value) {
         this.value = value;
     }
 
-    public String getValue() {
-        return value;
-    }
 }

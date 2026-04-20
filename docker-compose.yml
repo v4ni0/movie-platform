@@ -12,7 +12,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=user
       - SPRING_DATASOURCE_PASSWORD=password
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-      - TMDB_API_KEY=${TMDB_API_KEY} # Forward the API key from the host environment
+      - TMDB_API_KEY=${TMDB_API_KEY}
 
   postgres:
     image: postgres:13

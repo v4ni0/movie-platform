@@ -1,6 +1,7 @@
 package com.ivan.projects.movieplatform.controller;
 
 import com.ivan.projects.movieplatform.domain.User;
+import com.ivan.projects.movieplatform.dto.response.FavouriteResponse;
 import com.ivan.projects.movieplatform.service.FavouriteService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,12 @@ public class FavouriteController {
     @GetMapping
     public List<Integer> getFavourites(@AuthenticationPrincipal User user) {
         return favouriteService.getFavourites(user);
+    }
+
+    @Operation(summary = "Get all favourites with details")
+    @GetMapping("/details")
+    public List<FavouriteResponse> getFavouriteDetails(@AuthenticationPrincipal User user) {
+        return favouriteService.getFavouriteDetails(user);
     }
 
     @Operation(summary = "Add a movie to favourites")

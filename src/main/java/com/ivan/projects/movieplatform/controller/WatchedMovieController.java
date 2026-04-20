@@ -1,6 +1,8 @@
 package com.ivan.projects.movieplatform.controller;
 
 import com.ivan.projects.movieplatform.domain.User;
+import com.ivan.projects.movieplatform.dto.request.WatchedMovieRequest;
+import com.ivan.projects.movieplatform.dto.response.WatchedMovieResponse;
 import com.ivan.projects.movieplatform.service.WatchedMovieService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,11 +34,20 @@ public class WatchedMovieController {
         return watchedMovieService.getWatchedMovies(user);
     }
 
+    @Operation(summary = "Get all watched movies with details")
+    @GetMapping("/details")
+    public List<WatchedMovieResponse> getWatchedMovieDetails(@AuthenticationPrincipal User user) {
+        return watchedMovieService.getWatchedMovieDetails(user);
+    }
+
     @Operation(summary = "Mark a movie as watched")
     @PostMapping("/{movieId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addWatchedMovie(@AuthenticationPrincipal User user, @PathVariable Integer movieId) {
-        watchedMovieService.addWatchedMovie(user, movieId);
+    public void addWatchedMovie(@AuthenticationPrincipal User user, @PathVariable Integer movieId,
+                                @RequestBody(required = false) WatchedMovieRequest body) {
+        Integer rating = body != null ? body.rating() : null;
+        String notes = body != null ? body.notes() : null;
+        watchedMovieService.addWatchedMovie(user, movieId, rating, notes);
     }
 
     @Operation(summary = "Remove a movie from watched list")

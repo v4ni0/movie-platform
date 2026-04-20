@@ -1,4 +1,4 @@
-package com.ivan.projects.movieplatform.dto;
+package com.ivan.projects.movieplatform.vo;
 
 import com.google.gson.annotations.SerializedName;
 
