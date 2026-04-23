@@ -10,6 +10,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -18,10 +19,14 @@ import java.time.LocalDateTime;
 @Table(name = "watched_movies", uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "movie_id"}))
 @Getter
 @Setter
+@NoArgsConstructor
 public class WatchedMovie {
-    public WatchedMovie(User user, Integer movieId, Integer rating, String notes) {
+
+    public WatchedMovie (User user, Integer movieId, String title, String posterPath, Integer rating, String notes) {
         this.user = user;
         this.movieId = movieId;
+        this.title = title;
+        this.posterPath = posterPath;
         this.watchedAt = LocalDateTime.now();
         this.rating = rating;
         this.notes = notes;
@@ -41,8 +46,8 @@ public class WatchedMovie {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "poster_path", nullable = false)
-    String posterPath;
+    @Column(name = "poster_path")
+    private String posterPath;
 
     @Column(name = "watched_at", nullable = false)
     private LocalDateTime watchedAt;
@@ -52,4 +57,5 @@ public class WatchedMovie {
 
     @Column(name = "notes", length = 2000)
     private String notes;
+
 }

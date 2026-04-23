@@ -5,6 +5,7 @@ import com.ivan.projects.movieplatform.dto.request.WatchedMovieRequest;
 import com.ivan.projects.movieplatform.dto.response.WatchedMovieResponse;
 import com.ivan.projects.movieplatform.service.WatchedMovieService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -44,10 +45,8 @@ public class WatchedMovieController {
     @PostMapping("/{movieId}")
     @ResponseStatus(HttpStatus.CREATED)
     public void addWatchedMovie(@AuthenticationPrincipal User user, @PathVariable Integer movieId,
-                                @RequestBody(required = false) WatchedMovieRequest body) {
-        Integer rating = body != null ? body.rating() : null;
-        String notes = body != null ? body.notes() : null;
-        watchedMovieService.addWatchedMovie(user, movieId, rating, notes);
+                                @Valid @RequestBody WatchedMovieRequest body) {
+        watchedMovieService.addWatchedMovie(user, movieId, body);
     }
 
     @Operation(summary = "Remove a movie from watched list")
@@ -55,5 +54,11 @@ public class WatchedMovieController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void removeWatchedMovie(@AuthenticationPrincipal User user, @PathVariable Integer movieId) {
         watchedMovieService.removeWatchedMovie(user, movieId);
+    }
+
+    @Operation(summary = "Get the 5 most recently watched movies")
+    @GetMapping("/recent")
+    public List<WatchedMovieResponse> getRecentWatchedMovies(@AuthenticationPrincipal User user) {
+        return watchedMovieService.getRecentWatchedDetails(user);
     }
 }

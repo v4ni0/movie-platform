@@ -13,6 +13,11 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    private ResponseEntity<ErrorResponse> build(HttpStatus status, String message) {
+        ErrorResponse body = new ErrorResponse(status.value(), status.getReasonPhrase(), message);
+        return ResponseEntity.status(status).body(body);
+    }
+
     @ExceptionHandler(UsernameTakenException.class)
     public ResponseEntity<ErrorResponse> handleUsernameTaken(UsernameTakenException ex) {
         return build(HttpStatus.CONFLICT, ex.getMessage());
@@ -26,9 +31,26 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidation(MethodArgumentNotValidException ex) {
         String msg = ex.getBindingResult().getFieldErrors().stream()
-            .map(fe -> fe.getField() + ": " + fe.getDefaultMessage())
+            .map(fieldError -> fieldError.getField() + ": " + fieldError.getDefaultMessage())
             .collect(Collectors.joining("; "));
         return build(HttpStatus.BAD_REQUEST, msg);
+    }
+
+    @ExceptionHandler(MovieRecommendException.class)
+    public ResponseEntity<ErrorResponse> handleMovieRecommend(MovieRecommendException ex) {
+        return build(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+    }
+
+    /**
+     * Thrown when the custom ML recommendation API (HuggingFace Space) returns an
+     * error response or is unreachable. The RecommendationService catches this and
+     * falls back to the Gemma LLM, but if both strategies fail this exception surfaces.
+     * Returning 502 Bad Gateway signals that the failure is in an upstream service,
+     * not in our own application logic.
+     */
+    @ExceptionHandler(CustomRecommendationApiException.class)
+    public ResponseEntity<ErrorResponse> handleCustomRecommendationApi(CustomRecommendationApiException ex) {
+        return build(HttpStatus.BAD_GATEWAY, "Recommendation service error: " + ex.getMessage());
     }
 
     @ExceptionHandler(IOException.class)
@@ -45,10 +67,5 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleOther(Exception ex) {
         return build(HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected error");
-    }
-
-    private ResponseEntity<ErrorResponse> build(HttpStatus status, String message) {
-        ErrorResponse body = new ErrorResponse(status.value(), status.getReasonPhrase(), message);
-        return ResponseEntity.status(status).body(body);
     }
 }

@@ -1,12 +1,13 @@
 package com.ivan.projects.movieplatform.controller;
 
 import com.ivan.projects.movieplatform.domain.User;
+import com.ivan.projects.movieplatform.service.UserMovieService;
 import com.ivan.projects.movieplatform.vo.MovieUserStatus;
 import com.ivan.projects.movieplatform.vo.Movie;
 import com.ivan.projects.movieplatform.dto.response.MovieResponse;
 import com.ivan.projects.movieplatform.vo.Video;
 import com.ivan.projects.movieplatform.dto.response.VideoResponse;
-import com.ivan.projects.movieplatform.service.MovieStatusService;
+import com.ivan.projects.movieplatform.service.AiService;
 import com.ivan.projects.movieplatform.service.TMDBService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,11 +26,13 @@ import java.util.stream.Collectors;
 public class MovieSearchController {
 
     private final TMDBService tmdbService;
-    private final MovieStatusService movieStatusService;
+    private final UserMovieService userMovieService;
+    private final AiService aiService;
 
-    public MovieSearchController(TMDBService tmdbService, MovieStatusService movieStatusService) {
+    public MovieSearchController(TMDBService tmdbService, UserMovieService userMovieService, AiService aiService) {
         this.tmdbService = tmdbService;
-        this.movieStatusService = movieStatusService;
+        this.userMovieService = userMovieService;
+        this.aiService = aiService;
     }
 
     @Operation(summary = "Get a movie by its ID")
@@ -56,6 +59,16 @@ public class MovieSearchController {
     @Operation(summary = "Get user status for a movie (watched/favourite/watchlist)")
     @GetMapping("/{id}/status")
     public MovieUserStatus getStatus(@PathVariable Integer id, @AuthenticationPrincipal User user) {
-        return movieStatusService.getStatus(user, id);
+        return userMovieService.getStatus(user, id);
+    }
+
+    @Operation(summary = "Get an AI-generated description for a movie by title")
+    @GetMapping("/description")
+    public String getDescriptionByTitle(@RequestParam String title) throws IOException, InterruptedException {
+        MovieResponse searchResult = tmdbService.searchMovies(title);
+        Movie movie = (searchResult.results() != null && !searchResult.results().isEmpty())
+            ? searchResult.results().getFirst()
+            : null;
+        return aiService.generateMovieDescription(title, movie);
     }
 }
