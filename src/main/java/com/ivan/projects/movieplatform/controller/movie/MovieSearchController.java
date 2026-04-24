@@ -1,4 +1,4 @@
-package com.ivan.projects.movieplatform.controller;
+package com.ivan.projects.movieplatform.controller.movie;
 
 import com.ivan.projects.movieplatform.domain.User;
 import com.ivan.projects.movieplatform.service.UserMovieService;

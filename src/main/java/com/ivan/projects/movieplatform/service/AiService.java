@@ -42,15 +42,4 @@ public class AiService {
             .content();
     }
 
-    public RecommendationResponse getRecommendationsFallback(String description, int numberOfRecommendations) {
-        String prompt = """
-            Based on this description: "%s", suggest exactly %d real movies.
-            For each include the id (if known, else null),
-            title, and a relevance score between 0 and 1.
-            """.formatted(description, numberOfRecommendations);
-        return chatClient.prompt()
-            .user(prompt)
-            .call()
-            .entity(RecommendationResponse.class);
-    }
 }

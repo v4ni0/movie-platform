@@ -1,8 +1,8 @@
-package com.ivan.projects.movieplatform.controller;
+package com.ivan.projects.movieplatform.controller.authentication;
 
 import com.ivan.projects.movieplatform.domain.User;
 import com.ivan.projects.movieplatform.dto.request.RegisterRequest;
-import com.ivan.projects.movieplatform.service.AuthenticationService;
+import com.ivan.projects.movieplatform.service.authentication.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

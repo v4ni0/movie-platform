@@ -63,6 +63,7 @@ public class TMDBService {
         }
     }
 
+    @Cacheable(value = "search-results", key = "#query.toLowerCase()")
     public MovieResponse searchMovies(String query) throws IOException, InterruptedException {
         URI uri = buildSearchUri(query);
         HttpRequest request = HttpRequest.newBuilder()

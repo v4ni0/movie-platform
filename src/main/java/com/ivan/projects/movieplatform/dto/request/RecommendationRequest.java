@@ -1,5 +1,6 @@
 package com.ivan.projects.movieplatform.dto.request;
 
+import com.ivan.projects.movieplatform.service.recommendation.RecommendationStrategyType;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -10,5 +11,6 @@ public record RecommendationRequest(
     @Size(max = 500, message = "Description must be at most 500 characters")
     String description,
     @Min(1) @Max(10)
-    Integer topK
+    Integer topK,
+    RecommendationStrategyType strategy
 ) {}

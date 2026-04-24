@@ -90,25 +90,4 @@ class AiServiceTest {
         assertEquals("Description with no genres.", result,
             "Should handle empty genres gracefully");
     }
-
-    @Test
-    void testGetRecommendationsFallback() {
-        AiService aiService = createService();
-
-        ChatClientRequestSpec requestSpec = mock(ChatClientRequestSpec.class);
-        CallResponseSpec callResponse = mock(CallResponseSpec.class);
-        when(chatClient.prompt()).thenReturn(requestSpec);
-        when(requestSpec.user(anyString())).thenReturn(requestSpec);
-        when(requestSpec.call()).thenReturn(callResponse);
-
-        RecommendationResponse expected = new RecommendationResponse(
-            List.of(new MovieRecommendation(100, "Interstellar", 0.95))
-        );
-        when(callResponse.entity(RecommendationResponse.class)).thenReturn(expected);
-
-        RecommendationResponse result = aiService.getRecommendationsFallback("sci-fi thriller", 3);
-
-        assertEquals(1, result.recommendations().size(), "Should return 1 recommendation");
-        assertEquals("Interstellar", result.recommendations().get(0).title(), "Title should match");
-    }
 }

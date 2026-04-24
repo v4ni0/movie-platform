@@ -1,5 +1,6 @@
-package com.ivan.projects.movieplatform.service;
+package com.ivan.projects.movieplatform.service.integration;
 
+import com.ivan.projects.movieplatform.service.TMDBService;
 import com.ivan.projects.movieplatform.vo.Movie;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

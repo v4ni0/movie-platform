@@ -1,4 +1,4 @@
-package com.ivan.projects.movieplatform.service;
+package com.ivan.projects.movieplatform.service.authentication;
 
 import com.ivan.projects.movieplatform.domain.User;
 import com.ivan.projects.movieplatform.dto.request.RegisterRequest;

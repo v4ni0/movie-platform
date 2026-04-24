@@ -4,6 +4,7 @@ import com.ivan.projects.movieplatform.domain.User;
 import com.ivan.projects.movieplatform.dto.request.RegisterRequest;
 import com.ivan.projects.movieplatform.exception.UsernameTakenException;
 import com.ivan.projects.movieplatform.repository.UserRepository;
+import com.ivan.projects.movieplatform.service.authentication.AuthenticationService;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -18,7 +19,8 @@ class AuthenticationServiceTest {
 
     private final UserRepository userRepository = mock(UserRepository.class);
     private final PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);
-    private final AuthenticationService authenticationService = new AuthenticationService(userRepository, passwordEncoder);
+    private final AuthenticationService
+        authenticationService = new AuthenticationService(userRepository, passwordEncoder);
 
     @Test
     void testRegisterSuccess() {

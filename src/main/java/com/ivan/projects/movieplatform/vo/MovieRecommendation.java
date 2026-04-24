@@ -1,7 +1,7 @@
 package com.ivan.projects.movieplatform.vo;
 
 public record MovieRecommendation(
-    Integer movieId,
+    Integer id,
     String title,
     Double score
 ) {}

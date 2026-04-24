@@ -7,7 +7,6 @@ import com.ivan.projects.movieplatform.dto.response.WatchedMovieResponse;
 import com.ivan.projects.movieplatform.repository.WatchedMovieRepository;
 import org.junit.jupiter.api.Test;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,20 +55,20 @@ class WatchedMovieServiceTest {
 
     @Test
     void testGetWatchedMovieDetailsReturnsMappedResponses() {
-        WatchedMovie movie1 = createWatchedMovie(100, "Inception");
-        WatchedMovie movie2 = createWatchedMovie(200, "Interstellar");
+        WatchedMovie movie1 = createWatchedMovie(100, "Interstellar");
+        WatchedMovie movie2 = createWatchedMovie(200, "Film");
         when(watchedMovieRepository.findAllByUser(user)).thenReturn(List.of(movie1, movie2));
 
         List<WatchedMovieResponse> result = watchedMovieService.getWatchedMovieDetails(user);
 
         assertEquals(2, result.size(), "Should return 2 responses");
-        assertEquals("Inception", result.get(0).title(), "First movie title should match");
-        assertEquals("Interstellar", result.get(1).title(), "Second movie title should match");
+        assertEquals("Interstellar", result.get(0).title(), "First movie title should match");
+        assertEquals("Film", result.get(1).title(), "Second movie title should match");
     }
 
     @Test
     void testGetRecentWatchedDetailsReturnsTop5() {
-        WatchedMovie movie = createWatchedMovie(100, "Inception");
+        WatchedMovie movie = createWatchedMovie(100, "Interstellar");
         when(watchedMovieRepository.findTop5ByUserOrderByWatchedAtDesc(user)).thenReturn(List.of(movie));
 
         List<WatchedMovieResponse> result = watchedMovieService.getRecentWatchedDetails(user);
@@ -81,22 +80,22 @@ class WatchedMovieServiceTest {
     @Test
     void testAddWatchedMovieSavesWhenNotExists() {
         when(watchedMovieRepository.findByUserAndMovieId(user, 100)).thenReturn(Optional.empty());
-        WatchedMovieRequest request = new WatchedMovieRequest("Inception", "/poster.jpg", 9, "Amazing");
+        WatchedMovieRequest request = new WatchedMovieRequest("Interstellar", "/poster.jpg", 9, "Amazing");
 
         watchedMovieService.addWatchedMovie(user, 100, request);
 
-        verify(watchedMovieRepository).save(argThat(wm ->
-            wm.getMovieId().equals(100) &&
-            "Inception".equals(wm.getTitle()) &&
-            wm.getRating().equals(9)
+        verify(watchedMovieRepository).save(argThat(movie ->
+            movie.getMovieId().equals(100) &&
+            "Interstellar".equals(movie.getTitle()) &&
+            movie.getRating().equals(9)
         ));
     }
 
     @Test
     void testAddWatchedMovieSkipsWhenAlreadyExists() {
-        WatchedMovie existing = createWatchedMovie(100, "Inception");
+        WatchedMovie existing = createWatchedMovie(100, "Interstellar");
         when(watchedMovieRepository.findByUserAndMovieId(user, 100)).thenReturn(Optional.of(existing));
-        WatchedMovieRequest request = new WatchedMovieRequest("Inception", "/poster.jpg", 9, "Amazing");
+        WatchedMovieRequest request = new WatchedMovieRequest("Interstellar", "/poster.jpg", 9, "Amazing");
 
         watchedMovieService.addWatchedMovie(user, 100, request);
 
@@ -113,12 +112,12 @@ class WatchedMovieServiceTest {
     @Test
     void testAddWatchedMovieWithNullRating() {
         when(watchedMovieRepository.findByUserAndMovieId(user, 100)).thenReturn(Optional.empty());
-        WatchedMovieRequest request = new WatchedMovieRequest("Inception", "/poster.jpg", null, null);
+        WatchedMovieRequest request = new WatchedMovieRequest("Interstellar", "/poster.jpg", null, null);
 
         watchedMovieService.addWatchedMovie(user, 100, request);
 
-        verify(watchedMovieRepository).save(argThat(wm ->
-            wm.getRating() == null && wm.getNotes() == null
+        verify(watchedMovieRepository).save(argThat(movie ->
+            movie.getRating() == null && movie.getNotes() == null
         ));
     }
 }

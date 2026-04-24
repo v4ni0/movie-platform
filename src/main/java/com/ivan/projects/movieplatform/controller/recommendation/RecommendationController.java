@@ -1,7 +1,7 @@
-package com.ivan.projects.movieplatform.controller;
+package com.ivan.projects.movieplatform.controller.recommendation;
 
 import com.ivan.projects.movieplatform.dto.request.RecommendationRequest;
-import com.ivan.projects.movieplatform.service.RecommendationService;
+import com.ivan.projects.movieplatform.service.recommendation.RecommendationService;
 import com.ivan.projects.movieplatform.vo.Movie;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -25,6 +25,6 @@ public class RecommendationController {
     @Operation(summary = "Get movie recommendations based on a description")
     @PostMapping
     public List<Movie> recommend(@Valid @RequestBody RecommendationRequest request) {
-        return recommendationService.getRecommendations(request.description(), request.topK());
+        return recommendationService.getRecommendations(request.description(), request.topK(), request.strategy());
     }
 }
