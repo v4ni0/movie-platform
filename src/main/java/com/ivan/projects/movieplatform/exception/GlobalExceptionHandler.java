@@ -42,12 +42,20 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MovieRecommendException.class)
     public ResponseEntity<ErrorResponse> handleMovieRecommend(MovieRecommendException ex) {
+        log.error("Recommendation failed: {}", ex.getMessage(), ex);
         return build(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
     }
 
     @ExceptionHandler(CustomRecommendationApiException.class)
     public ResponseEntity<ErrorResponse> handleCustomRecommendationApi(CustomRecommendationApiException ex) {
+        log.error("Custom recommendation API error: {}", ex.getMessage(), ex);
         return build(HttpStatus.BAD_GATEWAY, "Recommendation service error: " + ex.getMessage());
+    }
+
+    @ExceptionHandler(TmdbFetchingException.class)
+    public ResponseEntity<ErrorResponse> handleTmdb(TmdbFetchingException ex) {
+        log.error("TMDB fetch failed: {}", ex.getMessage(), ex);
+        return build(HttpStatus.BAD_GATEWAY, "TMDB fetching error: " + ex.getMessage());
     }
 
     @ExceptionHandler(IOException.class)

@@ -2,6 +2,7 @@ package com.ivan.projects.movieplatform.service;
 
 import com.ivan.projects.movieplatform.dto.response.MovieResponse;
 import com.ivan.projects.movieplatform.dto.response.VideoResponse;
+import com.ivan.projects.movieplatform.exception.TmdbFetchingException;
 import com.ivan.projects.movieplatform.vo.Movie;
 import org.junit.jupiter.api.Test;
 
@@ -47,7 +48,7 @@ class TMDBServiceTest {
     }
 
     @Test
-    void testGetMovieByIdSuccess() throws IOException, InterruptedException {
+    void testGetMovieByIdSuccess() throws TmdbFetchingException, IOException, InterruptedException {
         mockResponse(200, movieJson);
 
         Movie movie = tmdbService.getMovieById(615656);
@@ -61,8 +62,8 @@ class TMDBServiceTest {
     void testGetMovieByIdNonOkStatusThrows() throws IOException, InterruptedException {
         mockResponse(404, "Not Found");
 
-        assertThrows(IOException.class, () -> tmdbService.getMovieById(999999),
-            "Should throw IOException on non-200 response");
+        assertThrows(TmdbFetchingException.class, () -> tmdbService.getMovieById(999999),
+            "Should throw TmdbFetchingException on non-200 response");
     }
 
     @Test
@@ -84,7 +85,7 @@ class TMDBServiceTest {
     }
 
     @Test
-    void testSearchMoviesSuccess() throws IOException, InterruptedException {
+    void testSearchMoviesSuccess() throws TmdbFetchingException, IOException, InterruptedException {
         mockResponse(200, searchJson);
 
         MovieResponse result = tmdbService.searchMovies("Meg");
@@ -98,12 +99,12 @@ class TMDBServiceTest {
     void testSearchMoviesNonOkStatusThrows() throws IOException, InterruptedException {
         mockResponse(500, "Server Error");
 
-        assertThrows(IOException.class, () -> tmdbService.searchMovies("Meg"),
-            "Should throw IOException on non-200 response");
+        assertThrows(TmdbFetchingException.class, () -> tmdbService.searchMovies("Meg"),
+            "Should throw TmdbFetchingException on non-200 response");
     }
 
     @Test
-    void testGetMovieVideosSuccess() throws IOException, InterruptedException {
+    void testGetMovieVideosSuccess() throws IOException, InterruptedException, TmdbFetchingException {
         mockResponse(200, videoJson);
 
         VideoResponse result = tmdbService.getMovieVideos(615656);
@@ -117,8 +118,8 @@ class TMDBServiceTest {
     void testGetMovieVideosNonOkStatusThrows() throws IOException, InterruptedException {
         mockResponse(404, "Not Found");
 
-        assertThrows(IOException.class, () -> tmdbService.getMovieVideos(615656),
-            "Should throw IOException on non-200 response");
+        assertThrows(TmdbFetchingException.class, () -> tmdbService.getMovieVideos(615656),
+            "Should throw TmdbFetchingException on non-200 response");
     }
 
     @Test
@@ -132,7 +133,7 @@ class TMDBServiceTest {
         when(httpClient.send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class)))
             .thenThrow(new InterruptedException("interrupted"));
 
-        assertThrows(InterruptedException.class, () -> tmdbService.getMovieById(1),
-            "Should throw InterruptedException when HTTP client is interrupted");
+        assertThrows(TmdbFetchingException.class, () -> tmdbService.getMovieById(1),
+            "Should throw TmdbFetchingException when HTTP client is interrupted");
     }
 }

@@ -9,6 +9,7 @@ import com.ivan.projects.movieplatform.repository.UserMovieRepository;
 import com.ivan.projects.movieplatform.repository.WatchedMovieRepository;
 import com.ivan.projects.movieplatform.vo.MovieUserStatus;
 import org.junit.jupiter.api.Test;
+import org.springframework.ai.chat.client.ChatClient;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +23,8 @@ class UserMovieServiceTest {
 
     private UserMovieRepository userMovieRepository = mock(UserMovieRepository.class);
     private WatchedMovieRepository watchedMovieRepository = mock(WatchedMovieRepository.class);
-    private UserMovieService userMovieService = new UserMovieService(userMovieRepository, watchedMovieRepository);
+    private ChatClient.Builder chatClientBuilder = mock(ChatClient.Builder.class);
+    private UserMovieService userMovieService = new UserMovieService(userMovieRepository, watchedMovieRepository, chatClientBuilder);
 
     private User user = createUser();
 

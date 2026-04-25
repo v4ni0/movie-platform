@@ -3,13 +3,13 @@ package com.ivan.projects.movieplatform.service.recommendation;
 import com.ivan.projects.movieplatform.dto.response.RecommendationResponse;
 import com.ivan.projects.movieplatform.exception.CustomRecommendationApiException;
 import com.ivan.projects.movieplatform.exception.MovieRecommendException;
+import com.ivan.projects.movieplatform.exception.TmdbFetchingException;
 import com.ivan.projects.movieplatform.service.TMDBService;
 import com.ivan.projects.movieplatform.vo.Movie;
 import com.ivan.projects.movieplatform.vo.MovieRecommendation;
 import com.ivan.projects.movieplatform.vo.MovieStatus;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -138,7 +138,7 @@ class RecommendationServiceTest {
     @Test
     void testThrowsWhenTmdbFails() throws Exception {
         when(customApiStrategy.recommend("sci-fi", 5)).thenReturn(responseWith(100));
-        when(tmdbService.getMovieById(100)).thenThrow(new IOException("TMDB down"));
+        when(tmdbService.getMovieById(100)).thenThrow(new TmdbFetchingException("TMDB down"));
 
         assertThrows(MovieRecommendException.class,
             () -> service.getRecommendations("sci-fi", 5, RecommendationStrategyType.CUSTOM_API));

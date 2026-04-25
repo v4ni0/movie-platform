@@ -1,10 +1,13 @@
 package com.ivan.projects.movieplatform.service;
 
 import com.google.gson.Gson;
+import com.ivan.projects.movieplatform.exception.TmdbFetchingException;
 import com.ivan.projects.movieplatform.vo.Movie;
 import com.ivan.projects.movieplatform.dto.response.MovieResponse;
 import com.ivan.projects.movieplatform.dto.response.VideoResponse;
 import com.ivan.projects.movieplatform.validation.Validator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -18,6 +21,7 @@ import java.net.http.HttpResponse;
 
 @Service
 public class TMDBService {
+    private static final Logger log = LoggerFactory.getLogger(TMDBService.class);
     private static final String MOVIE_ENDPOINT = "https://api.themoviedb.org/3/movie/";
     private static final String SEARCH_ENDPOINT = "https://api.themoviedb.org/3/search/movie";
     private static final String VIDEOS_ENDPOINT = "/videos";
@@ -48,49 +52,67 @@ public class TMDBService {
     }
 
     @Cacheable(value = "movies", key = "#movieId")
-    public Movie getMovieById(Integer movieId) throws IOException, InterruptedException {
+    public Movie getMovieById(Integer movieId) throws TmdbFetchingException {
+        log.debug("Fetching movie by id: {}", movieId);
         Validator.validatePositiveInteger(movieId, "Movie ID must be a positive integer.");
         URI uri = buildMovieUri(movieId);
         HttpRequest request = HttpRequest.newBuilder()
             .uri(uri)
             .GET()
             .build();
-        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response;
+        try {
+            response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            throw new TmdbFetchingException("Error fetching movie data: " + e.getMessage(), e);
+        }
         if (response.statusCode() == GOOD_RESPONSE_CODE) {
             return gson.fromJson(response.body(), Movie.class);
         } else {
-            throw new IOException("Failed to fetch movie data: " + response.body());
+            throw new TmdbFetchingException("Failed to fetch movie data: " + response.body());
         }
     }
 
     @Cacheable(value = "search-results", key = "#query.toLowerCase()")
-    public MovieResponse searchMovies(String query) throws IOException, InterruptedException {
+    public MovieResponse searchMovies(String query) throws TmdbFetchingException {
+        log.debug("Searching movies with query: {}", query);
         URI uri = buildSearchUri(query);
         HttpRequest request = HttpRequest.newBuilder()
             .uri(uri)
             .GET()
             .build();
-        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response;
+        try {
+            response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            throw new TmdbFetchingException("Error fetching movie data: " + e.getMessage(), e);
+        }
         if (response.statusCode() == GOOD_RESPONSE_CODE) {
             return gson.fromJson(response.body(), MovieResponse.class);
         } else {
-            throw new IOException("Failed to fetch search results: " + response.body());
+            throw new TmdbFetchingException("Failed to fetch movie data: " + response.body());
         }
     }
 
     @Cacheable(value = "movie-videos", key = "#movieId")
-    public VideoResponse getMovieVideos(Integer movieId) throws IOException, InterruptedException {
+    public VideoResponse getMovieVideos(Integer movieId) throws TmdbFetchingException {
+        log.debug("Fetching videos for movie id: {}", movieId);
         Validator.validatePositiveInteger(movieId, "Movie ID must be a positive integer.");
         URI uri = buildVideoUri(movieId);
         HttpRequest request = HttpRequest.newBuilder()
             .uri(uri)
             .GET()
             .build();
-        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response;
+        try {
+            response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            throw new TmdbFetchingException("Error fetching movie data: " + e.getMessage(), e);
+        }
         if (response.statusCode() == GOOD_RESPONSE_CODE) {
             return gson.fromJson(response.body(), VideoResponse.class);
         } else {
-            throw new IOException("Failed to fetch video data: " + response.body());
+            throw new TmdbFetchingException("Failed to fetch movie data: " + response.body());
         }
     }
 

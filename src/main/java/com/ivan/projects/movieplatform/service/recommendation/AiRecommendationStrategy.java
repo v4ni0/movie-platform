@@ -14,8 +14,8 @@ public class AiRecommendationStrategy implements RecommendationStrategy {
 
     public RecommendationResponse recommend(String description, int count) {
         String prompt = """
-            Based on this description: "%s", suggest exactly %d real movies.
-            For each include the id (if known, else null),
+            Based on this description: "%s", suggest exactly %d real movies that match the description.
+            For each include the tmdb id (if known, else null),
             title, and a relevance score between 0 and 1.
             """.formatted(description, count);
         return chatClient.prompt()

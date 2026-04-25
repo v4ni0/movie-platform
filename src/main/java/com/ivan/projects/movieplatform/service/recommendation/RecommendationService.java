@@ -3,19 +3,22 @@ package com.ivan.projects.movieplatform.service.recommendation;
 import com.ivan.projects.movieplatform.dto.response.RecommendationResponse;
 import com.ivan.projects.movieplatform.exception.CustomRecommendationApiException;
 import com.ivan.projects.movieplatform.exception.MovieRecommendException;
+import com.ivan.projects.movieplatform.exception.TmdbFetchingException;
 import com.ivan.projects.movieplatform.service.TMDBService;
 import com.ivan.projects.movieplatform.vo.Movie;
 import com.ivan.projects.movieplatform.vo.MovieRecommendation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
 @Service
 public class RecommendationService {
 
+    private static final Logger log = LoggerFactory.getLogger(RecommendationService.class);
     private static final int DEFAULT_NUMBER_OF_RECOMMENDATIONS = 5;
 
     private final TMDBService tmdbService;
@@ -55,6 +58,7 @@ public class RecommendationService {
                 try {
                     yield customApiStrategy.recommend(description, number);
                 } catch (CustomRecommendationApiException e) {
+                    log.warn("Custom API strategy failed, falling back to AI: {}", e.getMessage());
                     try {
                         yield aiFallbackStrategy.recommend(description, number);
                     } catch (CustomRecommendationApiException ex) {
@@ -78,7 +82,7 @@ public class RecommendationService {
     private Movie fetchMovieById(Integer id) {
         try {
             return tmdbService.getMovieById(id);
-        } catch (IOException | InterruptedException e) {
+        } catch (TmdbFetchingException e) {
             throw new MovieRecommendException("Failed to fetch movie " + id, e);
         }
     }
