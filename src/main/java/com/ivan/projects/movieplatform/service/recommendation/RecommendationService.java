@@ -73,17 +73,26 @@ public class RecommendationService {
         }
 
         return response.recommendations().stream()
-            .map(MovieRecommendation::id)
+            .map(recommendation -> fetchMovieByTitle(recommendation.title()))
             .filter(Objects::nonNull)
-            .map(this::fetchMovieById)
+            .limit(number)
             .toList();
     }
 
-    private Movie fetchMovieById(Integer id) {
+    private Movie fetchMovieByTitle(String title) {
+        if (title == null || title.isBlank()) {
+            return null;
+        }
         try {
-            return tmdbService.getMovieById(id);
+            var searchResult = tmdbService.searchMovies(title);
+            if (searchResult.results() != null && !searchResult.results().isEmpty()) {
+                return searchResult.results().getFirst();
+            }
+            log.warn("No TMDB results found for title: {}", title);
+            return null;
         } catch (TmdbFetchingException e) {
-            throw new MovieRecommendException("Failed to fetch movie " + id, e);
+            log.warn("Failed to search movie by title '{}': {}", title, e.getMessage());
+            return null;
         }
     }
 }

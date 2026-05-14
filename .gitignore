@@ -33,4 +33,5 @@ build/
 .vscode/
 
 ### Local secrets ###
+application-local.yml
 application-local.properties
