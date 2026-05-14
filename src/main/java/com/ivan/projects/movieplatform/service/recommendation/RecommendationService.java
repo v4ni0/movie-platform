@@ -19,7 +19,7 @@ import java.util.Objects;
 public class RecommendationService {
 
     private static final Logger log = LoggerFactory.getLogger(RecommendationService.class);
-    private static final int DEFAULT_NUMBER_OF_RECOMMENDATIONS = 5;
+    private static final int DEFAULT_NUMBER_OF_RECOMMENDATIONS = 10;
 
     private final TMDBService tmdbService;
     private final RecommendationStrategy customApiStrategy;
@@ -49,7 +49,7 @@ public class RecommendationService {
             }
             case AI -> {
                 try {
-                    yield aiFallbackStrategy.recommend(description, number);
+                    yield aiFallbackStrategy.recommend(description, DEFAULT_NUMBER_OF_RECOMMENDATIONS);
                 } catch (CustomRecommendationApiException e) {
                     throw new MovieRecommendException("AI recommendation failed", e);
                 }

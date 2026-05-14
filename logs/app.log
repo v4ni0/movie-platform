@@ -1277,3 +1277,58 @@ Identify and stop the process that's listening on port 8099 or configure this ap
 2026-05-14T20:07:59.446+03:00  WARN 17264 --- [movie-platform] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
 2026-05-14T20:08:02.979+03:00  WARN 17264 --- [movie-platform] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
 2026-05-14T20:08:03.901+03:00  INFO 17264 --- [movie-platform] [restartedMain] c.i.p.m.MoviePlatformApplication         : Started MoviePlatformApplication in 10.563 seconds (process running for 11.32)
+2026-05-14T20:28:57.331+03:00  INFO 12900 --- [movie-platform] [restartedMain] c.i.p.m.MoviePlatformApplication         : Starting MoviePlatformApplication using Java 21.0.7 with PID 12900 (D:\projects\movie-platform\target\classes started by Ivan in D:\projects\movie-platform)
+2026-05-14T20:28:57.334+03:00 DEBUG 12900 --- [movie-platform] [restartedMain] c.i.p.m.MoviePlatformApplication         : Running with Spring Boot v3.5.13, Spring v6.2.17
+2026-05-14T20:28:57.335+03:00  INFO 12900 --- [movie-platform] [restartedMain] c.i.p.m.MoviePlatformApplication         : The following 1 profile is active: "local"
+2026-05-14T20:29:03.046+03:00  WARN 12900 --- [movie-platform] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-14T20:29:06.684+03:00  WARN 12900 --- [movie-platform] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-05-14T20:29:07.551+03:00  WARN 12900 --- [movie-platform] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : Unable to start LiveReload server
+2026-05-14T20:29:07.605+03:00  WARN 12900 --- [movie-platform] [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2026-05-14T20:29:07.677+03:00 ERROR 12900 --- [movie-platform] [restartedMain] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8099 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8099 or configure this application to listen on another port.
+
+2026-05-14T20:41:23.420+03:00  INFO 3432 --- [movie-platform] [restartedMain] c.i.p.m.MoviePlatformApplication         : Starting MoviePlatformApplication using Java 21.0.7 with PID 3432 (D:\projects\movie-platform\target\classes started by Ivan in D:\projects\movie-platform)
+2026-05-14T20:41:23.423+03:00 DEBUG 3432 --- [movie-platform] [restartedMain] c.i.p.m.MoviePlatformApplication         : Running with Spring Boot v3.5.13, Spring v6.2.17
+2026-05-14T20:41:23.424+03:00  INFO 3432 --- [movie-platform] [restartedMain] c.i.p.m.MoviePlatformApplication         : The following 1 profile is active: "local"
+2026-05-14T20:41:28.902+03:00  WARN 3432 --- [movie-platform] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-14T20:41:32.390+03:00  WARN 3432 --- [movie-platform] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-05-14T20:41:33.245+03:00  WARN 3432 --- [movie-platform] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : Unable to start LiveReload server
+2026-05-14T20:41:33.297+03:00  WARN 3432 --- [movie-platform] [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2026-05-14T20:42:14.897+03:00  INFO 10296 --- [movie-platform] [restartedMain] c.i.p.m.MoviePlatformApplication         : Starting MoviePlatformApplication using Java 21.0.7 with PID 10296 (D:\projects\movie-platform\target\classes started by Ivan in D:\projects\movie-platform)
+2026-05-14T20:42:14.900+03:00 DEBUG 10296 --- [movie-platform] [restartedMain] c.i.p.m.MoviePlatformApplication         : Running with Spring Boot v3.5.13, Spring v6.2.17
+2026-05-14T20:42:14.901+03:00  INFO 10296 --- [movie-platform] [restartedMain] c.i.p.m.MoviePlatformApplication         : The following 1 profile is active: "local"
+2026-05-14T20:42:20.351+03:00  WARN 10296 --- [movie-platform] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-14T20:42:23.765+03:00  WARN 10296 --- [movie-platform] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-05-14T20:42:24.617+03:00  WARN 10296 --- [movie-platform] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : Unable to start LiveReload server
+2026-05-14T20:42:24.683+03:00  WARN 10296 --- [movie-platform] [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2026-05-14T20:42:24.757+03:00 ERROR 10296 --- [movie-platform] [restartedMain] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8099 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8099 or configure this application to listen on another port.
+
+2026-05-14T20:43:45.135+03:00  INFO 9116 --- [movie-platform] [restartedMain] c.i.p.m.MoviePlatformApplication         : Starting MoviePlatformApplication using Java 21.0.7 with PID 9116 (D:\projects\movie-platform\target\classes started by Ivan in D:\projects\movie-platform)
+2026-05-14T20:43:45.143+03:00 DEBUG 9116 --- [movie-platform] [restartedMain] c.i.p.m.MoviePlatformApplication         : Running with Spring Boot v3.5.13, Spring v6.2.17
+2026-05-14T20:43:45.143+03:00  INFO 9116 --- [movie-platform] [restartedMain] c.i.p.m.MoviePlatformApplication         : The following 1 profile is active: "local"
+2026-05-14T20:43:51.163+03:00  WARN 9116 --- [movie-platform] [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-14T20:43:55.041+03:00  WARN 9116 --- [movie-platform] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-05-14T20:43:56.074+03:00  INFO 9116 --- [movie-platform] [restartedMain] c.i.p.m.MoviePlatformApplication         : Started MoviePlatformApplication in 11.873 seconds (process running for 12.797)
